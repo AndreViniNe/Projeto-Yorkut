@@ -1,99 +1,82 @@
-// Jenkinsfile para o Projeto Yorkut
-
 pipeline {
-    // Define que o pipeline pode ser executado em qualquer agente Jenkins disponível
+    // Define o agente que executará o pipeline.
+    // O 'agent' precisa ter o Node.js instalado.
     agent any
 
-    // Define as ferramentas que serão usadas. Ajuste a versão do Maven se necessário.
+    // Define as ferramentas necessárias. O nome 'node18' deve corresponder
+    // ao configurado em 'Gerenciar Jenkins' > 'Ferramentas'.
     tools {
-        maven 'Maven-3.9.10'
+        nodejs 'node24'
     }
 
     stages {
-        // Estágio 1: Baixar o código-fonte do GitHub
+        // Estágio 1: Baixar o código-fonte do repositório
         stage('Checkout') {
             steps {
-                // Clona o repositório Git especificado na configuração do Job
-                git url: 'https://github.com/fbarreto05/Yorkut.git', branch: 'master'
-                echo 'Código-fonte baixado com sucesso.'
+                // Clona o repositório do Git
+                git url: 'https://github.com/fbarreto05/Yorkut.git', branch: 'main'
+                echo 'Código-fonte baixado.'
             }
         }
 
-        // Estágio 2: Compilar o projeto e instalar dependências com Maven
-        stage('Build') {
+        // Estágio 2: Instalar as dependências do projeto
+        stage('Install Dependencies') {
             steps {
-                // Executa os comandos Maven para limpar, compilar e empacotar o projeto
-                // Isso garante que o código não tem erros de compilação.
-                sh 'mvn clean install -DskipTests=true' // Pula os testes aqui, pois teremos um estágio dedicado
-                echo 'Projeto compilado com sucesso.'
+                // Roda 'npm install' para baixar todos os pacotes do package.json
+                sh 'npm install'
+                echo 'Dependências instaladas.'
             }
         }
 
-        // Estágio 3: Executar Testes Unitários
-        // Automatiza os testes de lógica interna, como os de Cadastro (T2) e Login (T3, T4, T5, T6).
+        // Estágio 3: Executar Testes Unitários com Jest
+        // Este estágio automatiza a validação da lógica do seu código.
         stage('Unit Tests') {
             steps {
-                // Executa os testes unitários do projeto
-                sh 'mvn test'
+                // Roda o script 'test' definido no package.json
+                sh 'npm test'
                 echo 'Testes unitários executados.'
             }
             post {
-                // Coleta os resultados dos testes para exibição no Jenkins
+                // Sempre executa após o estágio, para coletar os resultados
                 always {
-                    junit 'target/surefire-reports/*.xml' // Caminho padrão dos relatórios de teste do Maven/JUnit
-                    echo 'Relatórios de testes unitários publicados.'
-                }
-            }
-        }
+                    // Publica os resultados dos testes no formato JUnit
+                    junit 'junit.xml'
 
-        // Estágio 4: Executar Testes Funcionais (Histórias de Usuário)
-        // Automatiza cenários de ponta-a-ponta como Criar Conta (C1A1), Login (Cenário Login), etc.
-        stage('Functional Tests') {
-            steps {
-                echo 'Iniciando testes funcionais com Selenium/Cypress...'
-                // AQUI você deve colocar o comando para rodar seus testes funcionais.
-                // Exemplo se você usar Maven com Selenium:
-                // sh 'mvn failsafe:integration-tests'
-                
-                // Se usar Cypress (requer Node.js no ambiente Jenkins):
-                // sh 'npm install && npx cypress run'
-                
-                // ATENÇÃO: O comando exato depende de como você estruturou seus testes funcionais.
-                // Por enquanto, usaremos um placeholder.
-                echo 'Placeholder para execução de testes funcionais.'
-            }
-            post {
-                always {
-                    echo 'Publicando relatórios de testes funcionais...'
-                    // Publica os relatórios HTML gerados pelo seu framework de teste
+                    // Publica o relatório de cobertura de código em HTML
                     publishHTML(target: [
                         allowMissing: false,
                         alwaysLinkToLastBuild: true,
                         keepAll: true,
-                        reportDir: 'target/site/serenity', // Exemplo de caminho para relatórios do Serenity BDD com Selenium
+                        reportDir: 'coverage/lcov-report',
                         reportFiles: 'index.html',
-                        reportName: 'Relatório de Testes Funcionais'
+                        reportName: 'Relatório de Cobertura'
                     ])
                 }
             }
         }
+
+        // Estágio 4: Testes Funcionais (E2E) - Placeholder
+        // Este estágio é onde você automatizará as "histórias de usuário" completas,
+        // simulando a interação real do usuário no navegador.
+        stage('Functional (E2E) Tests') {
+            steps {
+                echo 'Placeholder para testes funcionais com Cypress ou Selenium.'
+                echo 'Exemplo de comando com Cypress: npx cypress run'
+            }
+        }
     }
 
-    // Bloco executado ao final do pipeline, independentemente do resultado
+    // Ações a serem executadas no final do pipeline
     post {
         always {
             echo 'Pipeline finalizado.'
-            // Limpa o workspace para a próxima execução
-            cleanWs()
         }
         success {
-            // Ação em caso de sucesso (ex: enviar um email)
-            echo 'Build concluído com sucesso!'
+            echo 'Pipeline executado com sucesso!'
         }
         failure {
-            // Ação em caso de falha
-            echo 'Build falhou. Verifique os logs.'
-            // Exemplo de notificação por email
+            echo 'O pipeline falhou.'
+            // Exemplo de notificação por email em caso de falha
             mail to: 'seu-email@exemplo.com',
                  subject: "FALHA no Build do Projeto Yorkut: #${env.BUILD_NUMBER}",
                  body: "O build #${env.BUILD_NUMBER} falhou. Verifique os logs no Jenkins: ${env.BUILD_URL}"
