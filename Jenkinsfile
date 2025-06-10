@@ -76,10 +76,11 @@ pipeline {
         }
         failure {
             echo 'O pipeline falhou.'
-            // Exemplo de notificação por email em caso de falha
+            /*
             mail to: 'seu-email@exemplo.com',
                  subject: "FALHA no Build do Projeto Yorkut: #${env.BUILD_NUMBER}",
                  body: "O build #${env.BUILD_NUMBER} falhou. Verifique os logs no Jenkins: ${env.BUILD_URL}"
+            */
         }
     }
 }
