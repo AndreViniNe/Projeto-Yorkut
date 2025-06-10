@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="/img/logo.png">
+    <link rel="stylesheet" href="/css/profile.css">
+    <title>Yorkut</title>
+</head>
+<body>
+    <div id="container">
+        <div id="sidebar">
+            <div id="content">
+                <img src="/img/logo.png" alt="logo">
+                <div id="options">
+                    <a href="/home/<%= id %>">Inicio</a>
+                    <a href="/profile/<%= id %>">Perfil</a>
+                    <a href="/friendreq/<%= id %>">Pedidos de amizade</a>
+                    <a href="/groupreq/<%= id %>">Solicitações de grupo </a>
+                    <a href="/">Sair</a>
+                </div> 
+            </div>
+        </div>
+    
+        <div id="profile">
+            <div id="user">
+                <img src="/img/user.png">
+                
+                <p>ID: <%= id %></p>
+                <p>Nome: <%= name %></p>
+                <p>Senha Criptografada: <%= password %></p>
+            </div>
+        </div>
+        <div id="areas">
+            <div id="amigos">
+                <h1></h1>
+                <% if (typeof msg === 'string') {%>
+                    <p><%= msg %></p>
+                <%}%>
+                <form action="/profile/<%= id %>/searchfriend" method="post">
+                    <input type="text" name="username">
+                    <button>Adicionar</button>
+                </form>
+                <div id="userlist">
+                    <% if (flist) {%>
+                        <% for(i=0; i<flist.length; i++){%>
+                            <div class="friend" id="friend<%=i%>">
+                                <a href="/home/<%= id %>/?friend=<%= flist[i].id %>"><%= flist[i].name %></a>
+                                <form action="/profile/<%= id %>/removeFriend/?friend=<%= flist[i].id %>" method="post">
+                                    <button>Remover</button>
+                                </form>
+                            </div>
+                        <% } %>
+                    <% } else { %>
+                        <p>Não há amigos disponíveis!</p>
+                    <% } %>
+                </div>
+            </div>
+            <div id="grupos">
+                <% if (typeof msggp === 'string') {%>
+                    <p><%= msggp %></p>
+                <%}%>
+                <form action="/profile/<%= id %>/searchgroup" method="post">
+                    <input type="text" name="groupname">
+                    <button>Entrar</button>
+                </form> 
+                <div id="grouplist">
+                    <% if (glist) {%>
+                        <% for(i=0; i<glist.length; i++){%>
+                            <div class="group" id="group<%=i%>">
+                                <a href="/home/<%= id %>/?group=<%= glist[i].gid %>"><%= glist[i].name %></a>
+                                <form action="/profile/<%= id %>/removeGroup/?group=<%= glist[i].gid %>" method="post">
+                                    <button>Remover</button>
+                                </form>
+                            </div>
+                        <% } %>
+                    <% } else { %>
+                        <p>Não há grupos disponíveis!</p>
+                    <% } %>
+                </div>
+
+                <div id="func">
+                    <form action="/profile/<%= id %>/addgroup" method="post">
+                        <input type="text" name="groupname">
+                        <button>Criar</button>
+                    </form> 
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
