@@ -23,6 +23,6 @@ app.use('/groupreq', groupreq)
 
 app.use('/profile', profile)
 
-app.listen(8080, function(){
-    console.log('Conectado na porta 8080!');
+app.listen(8081, function(){
+    console.log('Conectado na porta 8081!');
 });

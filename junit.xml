@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="jest tests" tests="8" failures="2" errors="0" time="5.871">
+  <testsuite name="__tests__\profile.test.js" errors="0" failures="2" skipped="0" timestamp="2025-06-10T13:52:25" time="4.356" tests="4">
+    <testcase classname="Testes da Rota de Perfil (/profile) › Criação de Grupo" name="Deve criar um novo grupo com sucesso se o nome não existir" time="0.159">
+      <failure>Error: expect(jest.fn()).toHaveBeenCalledWith(...expected)
+
+- Expected
++ Received
+
+  Object {
+-   &quot;admin&quot;: 1,
++   &quot;admin&quot;: &quot;1&quot;,
+    &quot;name&quot;: &quot;Nova Comunidade de Teste&quot;,
+  },
+
+Number of calls: 1
+    at Object.toHaveBeenCalledWith (C:\Users\Aluno\Desktop\Projeto-Yorkut\__tests__\profile.test.js:57:34)
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)</failure>
+    </testcase>
+    <testcase classname="Testes da Rota de Perfil (/profile) › Criação de Grupo" name="Não deve criar um grupo se o nome já existir" time="0.015">
+    </testcase>
+    <testcase classname="Testes da Rota de Perfil (/profile) › Adicionar Amigo" name="Deve enviar uma solicitação de amizade se o usuário existir e ainda não for amigo" time="0.014">
+      <failure>Error: expect(jest.fn()).toHaveBeenCalledWith(...expected)
+
+- Expected
++ Received
+
+  Object {
+    &quot;friendID&quot;: 2,
+-   &quot;userID&quot;: 1,
++   &quot;userID&quot;: &quot;1&quot;,
+  },
+
+Number of calls: 1
+    at Object.toHaveBeenCalledWith (C:\Users\Aluno\Desktop\Projeto-Yorkut\__tests__\profile.test.js:97:36)
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)</failure>
+    </testcase>
+    <testcase classname="Testes da Rota de Perfil (/profile) › Adicionar Amigo" name="Não deve enviar uma solicitação se o usuário não for encontrado" time="0.013">
+    </testcase>
+  </testsuite>
+  <testsuite name="__tests__\login.test.js" errors="0" failures="0" skipped="0" timestamp="2025-06-10T13:52:30" time="0.858" tests="4">
+    <testcase classname="Testes da Rota de Login e Cadastro" name="Deve cadastrar um novo usuário com sucesso" time="0.115">
+    </testcase>
+    <testcase classname="Testes da Rota de Login e Cadastro" name="Não deve cadastrar um usuário que já existe" time="0.106">
+    </testcase>
+    <testcase classname="Testes da Rota de Login e Cadastro" name="Deve fazer login com sucesso com credenciais corretas" time="0.104">
+    </testcase>
+    <testcase classname="Testes da Rota de Login e Cadastro" name="Não deve fazer login com senha incorreta" time="0.1">
+    </testcase>
+  </testsuite>
+</testsuites>
