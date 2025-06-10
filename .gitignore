@@ -1,0 +1,17 @@
+# Dependências
+/node_modules
+
+# Arquivos de log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Relatórios de teste e cobertura
+/coverage
+
+# Arquivos de ambiente
+.env
+
+# Arquivos do sistema operacional
+.DS_Store
+Thumbs.db
