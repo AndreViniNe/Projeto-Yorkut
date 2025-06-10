@@ -23,7 +23,7 @@ pipeline {
         stage('Install Dependencies') {
             steps {
                 // Roda 'npm install' para baixar todos os pacotes do package.json
-                sh 'npm install'
+                bat 'npm install'
                 echo 'Dependências instaladas.'
             }
         }
@@ -33,7 +33,7 @@ pipeline {
         stage('Unit Tests') {
             steps {
                 // Roda o script 'test' definido no package.json
-                sh 'npm test'
+                bat 'npm test'
                 echo 'Testes unitários executados.'
             }
             post {
