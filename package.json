@@ -11,10 +11,21 @@
   },
   "devDependencies": {
     "jest": "^29.7.0",
+    "jest-junit": "^16.0.0",
     "supertest": "^7.0.0"
   },
   "scripts": {
     "start": "node index.js",
     "test": "jest --detectOpenHandles"
+  },
+  
+  "jest-junit": {
+    "outputDirectory": ".",
+    "outputName": "junit.xml",
+    "ancestorSeparator": " › ",
+    "uniqueOutputName": "false",
+    "suiteNameTemplate": "{filepath}",
+    "classNameTemplate": "{classname}",
+    "titleTemplate": "{title}"
   }
 }
