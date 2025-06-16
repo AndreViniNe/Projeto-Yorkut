@@ -16,6 +16,6 @@ const UserFriends = db.sequelize.define('UserFriends', {
     },
 });
 
-UserFriends.sync({force: true})
+// UserFriends.sync({force: true})
 
 module.exports = UserFriends;

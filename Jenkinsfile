@@ -6,13 +6,6 @@ pipeline {
     }
 
     stages {
-        stage('Checkout') {
-            steps {
-                git url: 'https://github.com/AndreViniNe/Projeto-Yorkut.git', branch: 'main'
-                echo 'Código-fonte baixado.'
-            }
-        }
-
         stage('Install Dependencies') {
             steps {
                 script {
