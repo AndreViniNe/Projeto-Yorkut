@@ -2,7 +2,7 @@ describe('Testes Funcionais de Login', () => {
   // Antes de cada teste, garantimos que a aplicação esteja "limpa"
   // e visitamos a página inicial.
   beforeEach(() => {
-    cy.visit('http://localhost:8081'); // Certifique-se de que sua aplicação está rodando nesta porta
+    cy.visit('/'); // Certifique-se de que sua aplicação está rodando nesta porta
   });
 
   /**
