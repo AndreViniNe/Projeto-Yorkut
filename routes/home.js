@@ -141,36 +141,47 @@ router.post('/:id/searchfriend', async function(req, res){
 })
 
 router.post('/:id/addpost', async function(req, res){
-    id = req.params.id;
-    fId = req.query.friend;
-    destination = req.query.destination;
-    tp = req.query.tp;
-    content = req.body.mensagem;
+    const id = req.params.id;
+    // CORREÇÃO: Pegamos 'destination' e 'tp' diretamente da query, como já estava.
+    const destination = req.query.destination;
+    const tp = req.query.tp;
+    const content = req.body.mensagem;
 
-    if(content.trim() == "")
+    let msg = "";
+    let tpurl = "";
+
+    if(content.trim() === "")
     {
-        msg = "Insira uma mensagem antes de continuar!"
+        msg = "Insira uma mensagem antes de continuar!";
     }
-    else if(!fid && !gid)
+    // CORREÇÃO: A verificação deve ser em 'destination', não em 'fid' e 'gid' que não existem aqui.
+    else if(!destination)
     {
-        msg = "Selecione um amigo ou grupo antes de continuar!"
+        msg = "Selecione um amigo ou grupo antes de continuar!";
     }
     else
     {
-        Post.create({
+        await Post.create({
                 content: content,
                 author: id,
                 destination: destination,
                 destinationtp: tp
-        })
+        });
         
-        msg = "Postagem realizada com sucesso!"
+        msg = "Postagem realizada com sucesso!";
     }
 
-    if(tp == 0){tpurl="friend"}
-    if(tp == 1){tpurl="group"}
-    res.redirect(`/home/${id}/?${tpurl}=${destination}&msg=${msg}`)
-})
+    // A lógica de redirecionamento continua a mesma
+    if(tp == 0){ tpurl="friend"; }
+    if(tp == 1){ tpurl="group"; }
+    
+    // Se não houver destino, redireciona para a home geral
+    if (!destination) {
+        res.redirect(`/home/${id}/?msg=${msg}`);
+    } else {
+        res.redirect(`/home/${id}/?${tpurl}=${destination}&msg=${msg}`);
+    }
+});
 
 router.post('/:id/removeFriend', async function(req, res){
     id = req.params.id;
