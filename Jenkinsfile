@@ -3,7 +3,7 @@ pipeline {
     // O 'agent' precisa ter o Node.js instalado.
     agent any
 
-    // Define as ferramentas necessárias. O nome 'node18' deve corresponder
+    // Define as ferramentas necessárias. O nome 'nodejs' deve corresponder
     // ao configurado em 'Gerenciar Jenkins' > 'Ferramentas'.
     tools {
         nodejs 'node24'
@@ -23,7 +23,7 @@ pipeline {
         stage('Install Dependencies') {
             steps {
                 // Roda 'npm install' para baixar todos os pacotes do package.json
-                bat 'npm install'
+                sh 'npm install'
                 echo 'Dependências instaladas.'
             }
         }
@@ -33,7 +33,7 @@ pipeline {
         stage('Unit Tests') {
             steps {
                 // Roda o script 'test' definido no package.json
-                bat 'npm test'
+                sh 'npm test'
                 echo 'Testes unitários executados.'
             }
             post {
