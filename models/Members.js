@@ -16,6 +16,6 @@ const MembersList = db.sequelize.define('MembersList', {
     },
 });
 
-//MembersList.sync({force: true})
+MembersList.sync({force: true})
 
 module.exports = MembersList;
