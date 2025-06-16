@@ -40,7 +40,8 @@ describe('Testes da Rota de Perfil (/profile)', () => {
     // Teste para a História H1C1: "Quero criar novas comunidades"
     describe('Criação de Grupo', () => {
         it('Deve criar um novo grupo com sucesso se o nome não existir', async () => {
-            const userId = 1;
+            // CORREÇÃO: IDs de rotas são strings.
+            const userId = '1';
             const groupName = 'Nova Comunidade de Teste';
 
             // Simula que não encontrou um grupo com o mesmo nome
@@ -54,6 +55,7 @@ describe('Testes da Rota de Perfil (/profile)', () => {
                 .post(`/${userId}/addgroup`)
                 .send({ groupname: groupName });
 
+            // A asserção agora vai comparar string com string, o que vai passar.
             expect(Group.create).toHaveBeenCalledWith({ name: groupName, admin: userId });
             expect(Members.create).toHaveBeenCalledWith({ groupID: 10, memberID: userId, status: true });
             expect(response.status).toBe(302); // Espera um redirecionamento
@@ -61,7 +63,8 @@ describe('Testes da Rota de Perfil (/profile)', () => {
         });
 
         it('Não deve criar um grupo se o nome já existir', async () => {
-            const userId = 1;
+            // CORREÇÃO: IDs de rotas são strings.
+            const userId = '1';
             const groupName = 'Comunidade Existente';
 
             // Simula que encontrou um grupo com o mesmo nome
@@ -81,7 +84,8 @@ describe('Testes da Rota de Perfil (/profile)', () => {
     // Teste para a funcionalidade de adicionar amigos (relacionado à História de Interações Sociais)
     describe('Adicionar Amigo', () => {
         it('Deve enviar uma solicitação de amizade se o usuário existir e ainda não for amigo', async () => {
-            const userId = 1;
+            // CORREÇÃO: IDs de rotas são strings.
+            const userId = '1';
             const friendName = 'amigo_novo';
             const friendId = 2;
 
@@ -94,13 +98,15 @@ describe('Testes da Rota de Perfil (/profile)', () => {
                 .post(`/${userId}/searchfriend`)
                 .send({ username: friendName });
 
+            // A asserção agora vai comparar string com string, o que vai passar.
             expect(Friends.create).toHaveBeenCalledWith({ userID: userId, friendID: friendId });
             expect(response.status).toBe(302);
             expect(response.headers.location).toContain('msg=Usu%C3%A1rio%20adicionado%20com%20sucesso');
         });
 
         it('Não deve enviar uma solicitação se o usuário não for encontrado', async () => {
-            const userId = 1;
+            // CORREÇÃO: IDs de rotas são strings.
+            const userId = '1';
             const friendName = 'usuario_inexistente';
 
             // Simula que o usuário não foi encontrado
