@@ -49,7 +49,7 @@ app.use(bodyParser.json());
 // Montamos a rota no nosso app de teste
 app.use('/', loginRouter);
 
-describe('Testes da Rota de Login e Cadastro', () => {
+describe('Cenário C1A1/C2A2 - Login válido e inválido', () => {
 
     const User = require('../models/User');
     const bcrypt = require('bcryptjs');

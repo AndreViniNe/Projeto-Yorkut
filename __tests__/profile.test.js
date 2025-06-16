@@ -38,7 +38,7 @@ describe('Testes da Rota de Perfil (/profile)', () => {
     });
 
     // Teste para a História H1C1: "Quero criar novas comunidades"
-    describe('Criação de Grupo', () => {
+    describe('Cenário C3C1 - Criação de Grupo', () => {
         it('Deve criar um novo grupo com sucesso se o nome não existir', async () => {
             // CORREÇÃO: IDs de rotas são strings.
             const userId = '1';
@@ -82,7 +82,7 @@ describe('Testes da Rota de Perfil (/profile)', () => {
     });
 
     // Teste para a funcionalidade de adicionar amigos (relacionado à História de Interações Sociais)
-    describe('Adicionar Amigo', () => {
+    describe('Cenário C4I1 - Adicionar Amigo', () => {
         it('Deve enviar uma solicitação de amizade se o usuário existir e ainda não for amigo', async () => {
             // CORREÇÃO: IDs de rotas são strings.
             const userId = '1';
