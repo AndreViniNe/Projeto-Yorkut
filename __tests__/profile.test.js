@@ -53,7 +53,7 @@ describe('Testes da Rota de Perfil (/profile)', () => {
 
             const response = await request(app)
                 .post(`/${userId}/addgroup`)
-                .send({ groupname: groupName });
+                .send({ creategroup: groupName });
 
             // A asserção agora vai comparar string com string, o que vai passar.
             expect(Group.create).toHaveBeenCalledWith({ name: groupName, admin: userId });
@@ -72,7 +72,7 @@ describe('Testes da Rota de Perfil (/profile)', () => {
 
             const response = await request(app)
                 .post(`/${userId}/addgroup`)
-                .send({ groupname: groupName });
+                .send({ creategroup: groupName });
             
             // Garante que o Group.create NÃO foi chamado
             expect(Group.create).not.toHaveBeenCalled();
