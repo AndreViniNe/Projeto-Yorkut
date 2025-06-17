@@ -164,36 +164,42 @@ router.post('/:id/searchGroup', async function(req, res){
     res.redirect(`/profile/${id}/?msggp=${msggp}`)
 })
 
-router.post('/:id/addgroup', async function(req, res)
-{
-    id = req.params.id;
-    groupname = req.body.groupname;
+// No arquivo: routes/profile.js
 
-    group = await Group.findOne({
-        where: {name: groupname}
-    })
-    
-    if(group != null)
-    {
-        msggp = "Nome de grupo já existente, não foi possível concluir o cadastro."
+router.post('/:id/addgroup', async function(req, res) {
+    const id = req.params.id;
+    // CORREÇÃO ESSENCIAL: Lendo 'req.body.creategroup' do formulário
+    const groupname = req.body.creategroup; 
+    let msggp = "";
+
+    // Validação para garantir que o nome não é undefined ou vazio
+    if(!groupname || groupname.trim() === "") {
+        msggp = "Informe o nome do grupo antes de continuar!";
+        return res.redirect(`/profile/${id}/?msggp=${msggp}`);
     }
-    else
-    {
-        group = await Group.create({
+
+    const group = await Group.findOne({
+        where: { name: groupname }
+    });
+    
+    if (group != null) {
+        msggp = "Nome de grupo já existente, não foi possível concluir o cadastro.";
+    } else {
+        const newGroup = await Group.create({
             name: groupname,
             admin: id
-        })
+        });
 
-        Members.create({
-            groupID: group.id,
+        await Members.create({
+            groupID: newGroup.id,
             memberID: id,
             status: true
-        })
+        });
 
-        msggp = "Grupo cadastrado com sucesso!"
+        msggp = "Grupo cadastrado com sucesso!";
     }
-    res.redirect(`/profile/${id}/?msggp=${msggp}`)
-})
+    res.redirect(`/profile/${id}/?msggp=${msggp}`);
+});
 
 router.post('/:id/removeGroup', async function(req, res){
     id = req.params.id;
